@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import YouTubeSearch from 'youtube-api-search';
+import _ from 'lodash';
 import SearchBar from './components/SearchBar';
 import VideoDetail from './components/VideoDetail';
 import VideoList from './components/VideoList';
@@ -24,12 +25,14 @@ class App extends Component {
 	}
 
 	render() {
+		const throttledSearch = _.debounce(this.runSearch.bind(this), 700);
+
 		return (
 			<Container>
 				<Row>
 					<Col md="12">
 						<h1>YouTube Search Magic</h1>
-						<SearchBar runSearch={this.runSearch.bind(this)} />
+						<SearchBar runSearch={throttledSearch} />
 					</Col>
 				</Row>
 				<Row>
@@ -41,7 +44,7 @@ class App extends Component {
 					</Col>
 				</Row>
 			</Container>
-    );
+    	);
 	}
 }
 
